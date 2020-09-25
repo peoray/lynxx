@@ -3,43 +3,45 @@
     <img src="../assets/spinner.gif" alt="" />
   </div>
 
-  <div class="card" v-else>
-    <div v-for="image in images" :key="image.id">
+  <div v-else class="card">
+    <div v-for="image in favoriteImages" :key="image.id">
       <Card :image="image"></Card>
     </div>
   </div>
 </template>
 
 <script>
-import { fetchImages } from '../api'
+import { fetchFavoriteImages } from '../api'
 import Card from '../components/card/Card'
 
 export default {
-  name: 'Home',
+  name: 'favourite-images',
   components: {
     Card
   },
   data () {
     return {
-      images: [],
+      favoriteImages: [],
       loading: false
     }
   },
   async mounted () {
-    this.getAllImages()
+    await this.getFetchFavoriteImages()
   },
   methods: {
-    async getAllImages () {
+    async getFetchFavoriteImages () {
       this.loading = true
       try {
-        const data = await fetchImages('list')
-        this.images = data
+        const data = await fetchFavoriteImages('list')
+        this.favoriteImages = data
         this.loading = false
       } catch (error) {
-        console.error(error)
         this.loading = false
+        console.error(error)
       }
     }
   }
 }
 </script>
+
+<style></style>
